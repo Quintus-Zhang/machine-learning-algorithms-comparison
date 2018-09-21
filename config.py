@@ -26,14 +26,16 @@ jpt_dir = os.getcwd()
 base_dir = os.path.dirname(jpt_dir)
 data_dir = os.path.join(base_dir, 'data')
 data_fp = os.path.join(data_dir, 'php8Mz7BG.csv')
+credit_data_fp = os.path.join(data_dir, 'UCI_Credit_Card.csv')
 
 # Read the data set
 data = pd.read_csv(data_fp)
+credit_data = pd.read_csv(credit_data_fp)
 
 # Split data set into training set and test set
 X_cols = [col for col in data.columns if col != 'Class']
 X = data[X_cols]
 y = data['Class']
 y = y.where(y==1, other=0)  # change class label 2 to 0
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1)
 
