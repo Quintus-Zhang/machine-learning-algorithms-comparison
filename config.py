@@ -41,7 +41,7 @@ data_dir = os.path.join(base_dir, 'data')
 temp_dir = os.path.join(base_dir, 'temp')
 
 data_fp = os.path.join(data_dir, 'php8Mz7BG.csv')
-credit_data_fp = os.path.join(data_dir, 'phpV5QYya.csv')    # phishing websites
+sp_data_fp = os.path.join(data_dir, 'dataset_44_spambase.csv')
 
 X_train_fp = os.path.join(temp_dir, 'php_X_train')
 X_test_fp = os.path.join(temp_dir, 'php_X_test')
@@ -53,3 +53,17 @@ X_train = pd.read_pickle(X_train_fp)
 X_test = pd.read_pickle(X_test_fp)
 y_train = pd.read_pickle(y_train_fp)
 y_test = pd.read_pickle(y_test_fp)
+
+#
+
+X_train_fp = os.path.join(temp_dir, 'sp_X_train')
+X_test_fp = os.path.join(temp_dir, 'sp_X_test')
+y_train_fp = os.path.join(temp_dir, 'sp_y_train')
+y_test_fp = os.path.join(temp_dir, 'sp_y_test')
+
+# read data from pickle file
+sp_data = pd.read_pickle(os.path.join(temp_dir, 'sp_data'))
+sp_X_train = pd.read_pickle(X_train_fp)
+sp_X_test = pd.read_pickle(X_test_fp)
+sp_y_train = pd.read_pickle(y_train_fp)
+sp_y_test = pd.read_pickle(y_test_fp)

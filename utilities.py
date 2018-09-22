@@ -83,9 +83,8 @@ def plot_learning_curve(estimator, title, X, y, ylim=None, cv=None, metric=None,
 
 
 
-
 def plot_validation_curve(estimator, title, X, y, ylim=None, cv=None, metric=None,
-                          n_jobs=4, param_name=None, param_range=None):
+                          n_jobs=4, param_name=None, param_range=None, log_scale=False):
 
     scorer = make_scorer(metric)
     train_scores, test_scores = validation_curve(
@@ -103,14 +102,19 @@ def plot_validation_curve(estimator, title, X, y, ylim=None, cv=None, metric=Non
     if ylim is not None:
         plt.ylim(*ylim)
     lw = 2
-    plt.plot(param_range, train_scores_mean, label="Training score", color="darkorange", lw=lw)
+
+    if not log_scale:
+        plt.plot(param_range, train_scores_mean, label="Training score", color="darkorange", lw=lw)
+        plt.plot(param_range, test_scores_mean, label="Cross-validation score", color="navy", lw=lw)
+    else:
+        plt.semilogx(param_range, train_scores_mean, label="Training score", color="darkorange", lw=lw)
+        plt.semilogx(param_range, test_scores_mean, label="Cross-validation score", color="navy", lw=lw)
     plt.fill_between(param_range, train_scores_mean - train_scores_std,
                      train_scores_mean + train_scores_std, alpha=0.2,
                      color="darkorange", lw=lw)
-    plt.plot(param_range, test_scores_mean, label="Cross-validation score", color="navy", lw=lw)
     plt.fill_between(param_range, test_scores_mean - test_scores_std,
                      test_scores_mean + test_scores_std, alpha=0.2,
                      color="navy", lw=lw)
     plt.legend(loc="best")
     print(param_range[test_scores_mean.argmax()])
-    return plt
+    return train_scores_mean, test_scores_mean
