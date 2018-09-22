@@ -7,13 +7,27 @@ import seaborn as sns
 
 # sklearn
 from sklearn.model_selection import train_test_split, learning_curve, ShuffleSplit, validation_curve, GridSearchCV, \
-    cross_val_score
+    cross_val_score, StratifiedKFold
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score, roc_auc_score, roc_curve, auc, precision_recall_curve, \
     average_precision_score, f1_score, log_loss, classification_report, confusion_matrix, make_scorer
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.svm import SVC
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neural_network import MLPClassifier
+from sklearn.preprocessing import StandardScaler
+
+
+# keras
+import keras
+from keras.models import Sequential
+from keras.layers import Dense, Activation
+from keras.optimizers import Adam
+from keras import regularizers
+from keras.layers.advanced_activations import LeakyReLU, PReLU
+from keras.optimizers import Nadam
+from keras.layers import Dropout
+from keras import backend as K
 
 
 # local items
@@ -22,20 +36,20 @@ from utilities import plot_learning_curve, plot_validation_curve
 
 
 # Set up directory and file path
-jpt_dir = os.getcwd()
-base_dir = os.path.dirname(jpt_dir)
+base_dir = os.path.dirname(__file__)
 data_dir = os.path.join(base_dir, 'data')
+temp_dir = os.path.join(base_dir, 'temp')
+
 data_fp = os.path.join(data_dir, 'php8Mz7BG.csv')
-credit_data_fp = os.path.join(data_dir, 'UCI_Credit_Card.csv')
+credit_data_fp = os.path.join(data_dir, 'phpV5QYya.csv')    # phishing websites
 
-# Read the data set
-data = pd.read_csv(data_fp)
-credit_data = pd.read_csv(credit_data_fp)
+X_train_fp = os.path.join(temp_dir, 'php_X_train')
+X_test_fp = os.path.join(temp_dir, 'php_X_test')
+y_train_fp = os.path.join(temp_dir, 'php_y_train')
+y_test_fp = os.path.join(temp_dir, 'php_y_test')
 
-# Split data set into training set and test set
-X_cols = [col for col in data.columns if col != 'Class']
-X = data[X_cols]
-y = data['Class']
-y = y.where(y==1, other=0)  # change class label 2 to 0
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1)
-
+# read data from pickle file
+X_train = pd.read_pickle(X_train_fp)
+X_test = pd.read_pickle(X_test_fp)
+y_train = pd.read_pickle(y_train_fp)
+y_test = pd.read_pickle(y_test_fp)
