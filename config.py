@@ -30,6 +30,7 @@ from keras.layers import Dropout
 from keras import backend as K
 
 
+
 # local items
 sys.path.insert(0, os.path.dirname(os.getcwd()))
 from utilities import plot_learning_curve, plot_validation_curve
@@ -67,3 +68,4 @@ sp_X_train = pd.read_pickle(X_train_fp)
 sp_X_test = pd.read_pickle(X_test_fp)
 sp_y_train = pd.read_pickle(y_train_fp)
 sp_y_test = pd.read_pickle(y_test_fp)
+
