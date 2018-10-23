@@ -30,7 +30,6 @@ from keras.layers import Dropout
 from keras import backend as K
 
 
-
 # local items
 sys.path.insert(0, os.path.dirname(os.getcwd()))
 from utilities import plot_learning_curve, plot_validation_curve
